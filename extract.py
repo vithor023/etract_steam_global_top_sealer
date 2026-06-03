@@ -16,7 +16,7 @@ class Extractor:
 
         return rq.get(self.url,headers=headers,params=params,timout=10).text
 
-    def get_table(self):
+    def get_games_infos(self):
 
         page = 1
         lista = []
@@ -37,6 +37,9 @@ class Extractor:
             page+=1
         
         return lista
+
+    def preprocessing(self):
+        pass
 
 
 
