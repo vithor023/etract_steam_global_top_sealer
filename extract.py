@@ -14,7 +14,7 @@ class Extractor:
             )
         }
 
-        return rq.get(self.url,headers=headers,params=params,timout=10).text
+        return rq.get(self.url,headers=headers,params=params).text
 
     def get_games_infos(self):
 
@@ -37,10 +37,42 @@ class Extractor:
             page+=1
         
         return lista
-
+    
     def preprocessing(self):
-        pass
+
+        games_structured_list = []
+        games_not_structured = self.get_games_infos()
+
+        for row in games_not_structured:
+            games = {}
+
+            div_rewiew = row.find('div',class_='search_reviewscore responsive_secondrow')
+            div_price = row.find('div',class_='search_price_discount_combined responsive_secondrow').find('div',class_='discount_final_price')
 
 
+            games['name'] = row.find('span',class_='title').text
+            games['release_date'] =  row.find('div',class_='search_released responsive_secondrow').text.strip()
+            
+            games['type_review'] = (
+               div_rewiew.find('span').get('data-tooltip-html').split('<br>')[0]
+                if div_rewiew and div_rewiew.find('span') and div_rewiew.find('span').get('data-tooltip-html')
+                else None)
+            
+            games['has_discount'] = 1 if 'discount_pct' in str(div_price) else 0
+            
+            games['price'] = (
+                div_price
+                if div_price else 'free')
 
+            games_structured_list.append(games)
 
+        return games_structured_list
+
+# %%
+
+ext = Extractor()
+listao = ext.preprocessing()
+
+# %%
+listao
+# %%
