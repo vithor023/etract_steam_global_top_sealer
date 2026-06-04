@@ -1,4 +1,3 @@
-# %%
 from bs4 import BeautifulSoup
 import requests as rq
 
@@ -47,7 +46,9 @@ class Extractor:
             games = {}
 
             div_rewiew = row.find('div',class_='search_reviewscore responsive_secondrow')
-            div_price = row.find('div',class_='search_price_discount_combined responsive_secondrow').find('div',class_='discount_final_price')
+            div_price = row.find('div',class_='search_price_discount_combined responsive_secondrow')
+            div_price_final = div_price.find('div',class_='discount_final_price')
+            div_percent = div_price.find('div',class_='discount_pct')
 
 
             games['name'] = row.find('span',class_='title').text
@@ -59,20 +60,10 @@ class Extractor:
                 else None)
             
             games['has_discount'] = 1 if 'discount_pct' in str(div_price) else 0
-            
-            games['price'] = (
-                div_price
-                if div_price else 'free')
+            games['price'] = div_price_final.text if div_price_final else 'free'
+            games['discount_percent_percent'] = div_percent.text if div_percent else None
 
             games_structured_list.append(games)
 
         return games_structured_list
 
-# %%
-
-ext = Extractor()
-listao = ext.preprocessing()
-
-# %%
-listao
-# %%
