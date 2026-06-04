@@ -37,7 +37,7 @@ class Extractor:
         
         return lista
     
-    def preprocessing(self):
+    def extract_to_dict(self):
 
         games_structured_list = []
         games_not_structured = self.get_games_infos()
