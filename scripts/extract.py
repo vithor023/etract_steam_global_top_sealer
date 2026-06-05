@@ -32,6 +32,7 @@ class Extractor:
                 break
             
             page+=1
+            
             print('Coleta concluida')
         return lista
     
@@ -59,7 +60,7 @@ class Extractor:
             
             games['has_discount'] = 1 if 'discount_pct' in str(div_price) else 0
             games['price'] = div_price_final.text if div_price_final else 'free'
-            games['discount_percent'] = div_percent.text if div_percent else None
+            games['discount_percent_percent'] = div_percent.text if div_percent else None
 
             games_structured_list.append(games)
 

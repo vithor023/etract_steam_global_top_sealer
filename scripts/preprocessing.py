@@ -1,10 +1,10 @@
 from extract import Extractor
 import pandas as pd
 
-def feature_engine():
-    
-    df = pd.DataFrame(datas)
+def data_clean() -> pd.DataFrame:
+
     datas = Extractor().extract_to_dict()
+    df = pd.DataFrame(datas)
 
     df['release_date'] = pd.to_datetime(df['release_date'])
     df['price'] = df['price'].apply(lambda x: x.replace(',','.').replace('R$','') if x.startswith('R$') else '0.0').astype('float')
