@@ -28,13 +28,11 @@ class Extractor:
             }
             soup_list = BeautifulSoup(self.extract_html_from_url(params=params),'html.parser').find_all('a',class_='search_result_row ds_collapse_flag')
             lista.extend(soup_list)
-            print(f'Foram coletados: {len(soup_list)} jogos')
             if not soup_list:
-                print('Fim da lista')
                 break
             
             page+=1
-        
+            print('Coleta concluida')
         return lista
     
     def extract_to_dict(self):
@@ -61,7 +59,7 @@ class Extractor:
             
             games['has_discount'] = 1 if 'discount_pct' in str(div_price) else 0
             games['price'] = div_price_final.text if div_price_final else 'free'
-            games['discount_percent_percent'] = div_percent.text if div_percent else None
+            games['discount_percent'] = div_percent.text if div_percent else None
 
             games_structured_list.append(games)
 
