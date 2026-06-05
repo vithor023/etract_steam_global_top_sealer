@@ -1,5 +1,6 @@
 from extract import Extractor
 import pandas as pd
+import os
 
 def data_clean() -> pd.DataFrame:
 
@@ -16,3 +17,8 @@ def data_clean() -> pd.DataFrame:
 
     return df
 
+df = data_clean()
+
+path_data = '../data/raw'
+
+df.to_csv(os.path.join(path_data,'games_best_sellers.csv'),index=False)
